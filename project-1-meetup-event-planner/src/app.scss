@@ -1,0 +1,110 @@
+$color1: #2C3E50;
+$color2: #E74C3C;
+$color3: #ECF0F1;
+$color4: #3498DB;
+$color5: #2980B9;
+
+
+body {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 16px;
+}
+
+input {
+  font-size: 16px;
+
+  border-width: 0 0 1px 0;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.arrow {
+  font-size: 25px;
+}
+
+a {
+  &:link {
+    text-decoration: inherit;
+    color: inherit;
+    cursor: auto;
+  }
+
+  &:visited {
+    text-decoration: inherit;
+    color: inherit;
+    cursor: auto;
+  }
+}
+
+h1 {
+  color: $color5;
+}
+
+html, main, body {
+  height: 100%;
+}
+
+main {
+  display: flex;
+  align-items: center;
+}
+
+.bio-toggle-open {
+  &> #arrow-right {
+    display: none;
+  }
+}
+
+.bio-toggle-closed {
+  &> #arrow-down {
+    display: none;
+  }
+}
+
+.register-form {
+  margin: auto;
+  border-width: 1px;
+  border-radius: 6px;
+  padding: 10px;
+
+  h1 {
+    font-size: 60px;
+    text-align: center;
+  }
+
+  .form {
+    margin: 20px 0;
+  }
+
+  label {
+    display: inline-block;
+    min-width: 95px;
+    color: $color1;
+    font-weight: bold;
+  }
+
+  input {
+    min-height: 35px;
+    padding: 5px;
+
+    &:focus {
+      border-bottom-width: 2px;
+      border-bottom-color: $color4;
+    }
+
+  }
+
+  input[type=submit] {
+    background-color: $color4;
+    color: white;
+    width: 100%;
+    padding: 7px 0;
+    font-weight: bold;
+
+    &:hover {
+      background-color: $color5;
+    }
+  }
+}

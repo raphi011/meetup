@@ -16,8 +16,10 @@
     "webpack-dev-server": "^1.16.1"
   },
   "dependencies": {
+    "normalize.css": "^4.2.0",
     "react": "^15.3.2",
-    "react-dom": "^15.3.2"
+    "react-dom": "^15.3.2",
+    "react-router": "^2.8.1"
   },
   "scripts": {
     "start": "react-scripts start",
