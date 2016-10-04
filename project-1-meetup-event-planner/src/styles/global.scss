@@ -1,0 +1,48 @@
+@import './variables.scss';
+@import './register-form.scss';
+
+html, main, body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 16px;
+}
+
+h1 {
+  color: $color5;
+}
+
+main {
+  display: flex;
+  align-items: center;
+}
+
+input {
+  font-size: 16px;
+
+  border-width: 0 0 1px 0;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+a {
+  &:link {
+    text-decoration: inherit;
+    color: inherit;
+    cursor: auto;
+  }
+
+  &:visited {
+    text-decoration: inherit;
+    color: inherit;
+    cursor: auto;
+  }
+}
+
+.arrow {
+  font-size: 25px;
+}
