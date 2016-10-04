@@ -3,7 +3,7 @@ import { Router, Route, hashHistory } from 'react-router';
 import Home from './Home';
 
 import 'normalize.css';
-import './app.scss';
+import './styles/global.scss';
 
 class App extends Component {
   render() {

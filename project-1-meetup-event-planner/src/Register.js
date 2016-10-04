@@ -7,7 +7,20 @@ class Register extends Component {
       bioOpened: false
     };
     this.handleClick = this.handleClick.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.renderBio = this.renderBio.bind(this);
+  }
+
+  handleChange(event) {
+    var passwordInput = event.target;
+    var password = passwordInput.value;
+
+    if (password.length < 8) {
+      passwordInput.setCustomValidity(
+        "Password has to be longer than 8 characters");
+    } else {
+      passwordInput.setCustomValidity("");
+    }
   }
 
   handleClick() {
@@ -15,13 +28,20 @@ class Register extends Component {
   }
 
   renderBio() {
-    const className = this.state.bioOpened ? 'bio-toggle-open' : 'bio-toggle-closed';
+    const className = this.state.bioOpened ? 'bio-toggle open' :
+                                             'bio-toggle closed';
 
     if (this.state.bioOpened) {
       return (
         <div>
           <div className="form">
-            <a onClick={this.handleClick} className={className}><span id="arrow-right">→</span><span id="arrow-down">↓</span> public information <i>(optional)</i></a>
+            <a href="#"
+            onClick={this.handleClick}
+            className={className}>
+            <span id="arrow-right">→</span>
+            <span id="arrow-down">↓</span>
+             public information <i>(optional)</i>
+             </a>
           </div>
           <div className="form">
             <label htmlFor="form-name">Birthday: </label>
@@ -32,7 +52,7 @@ class Register extends Component {
     } else {
       return (
         <div className="form">
-          <a onClick={this.handleClick} className={className}><span id="arrow-right">→</span><span id="arrow-down">↓</span> public information <i>(optional)</i></a>
+          <a onClick={this.handleClick} href="#" className={className}><span id="arrow-right">→</span><span id="arrow-down">↓</span> public information <i>(optional)</i></a>
         </div>
       );
     }
@@ -53,7 +73,7 @@ class Register extends Component {
           </div>
           <div className="form">
             <label htmlFor="form-password">Password: </label>
-            <input id="form-password" type="password" autoComplete="new-password" placeholder="******" required/>
+            <input id="form-password" onChange={this.handleChange} type="password" autoComplete="new-password" placeholder="******" required/>
           </div>
           {this.renderBio()}
           <input type="submit" value="Go" />
