@@ -1,3 +1,8 @@
+#register-form-container {
+  display: flex;
+  align-items: center;
+}
+
 .register-form {
   margin: auto;
   border-width: 1px;
@@ -5,9 +10,9 @@
   padding: 10px;
 
   h1 {
-    font-size: 60px;
-    letter-spacing: -2px;
+    font-size: 40px;
     text-align: center;
+    font-weight: 100;
   }
 
   .form {
@@ -24,12 +29,11 @@
   input {
     min-height: 35px;
     padding: 5px;
+    text-align: center;
 
     &:focus {
-      border-bottom-width: 2px;
       border-bottom-color: $color4;
     }
-
   }
 
   input[type=submit] {
@@ -45,8 +49,7 @@
   }
 }
 
-.bio-toggle {
-
+.bio-toggle   {
   &.open > #arrow-right {
       display: none;
   }

@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
-import { Router, Route, hashHistory } from 'react-router';
-import Home from './Home';
+import Header from './Header';
 
 import 'normalize.css';
 import './styles/global.scss';
+import 'sprint-js/sprint.js';
 
 class App extends Component {
   render() {
     return (
-      <Router history={hashHistory}>
-        <Route path="/" component={Home}/>
-      </Router>
+      <div>
+        <Header/>
+        <main>
+          {this.props.children}
+        </main>
+      </div>
     );
   }
 }
