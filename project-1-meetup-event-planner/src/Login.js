@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { hashHistory } from 'react-router'
+import * as firebase from 'firebase';
 
-var $ = require("sprint-js");
+const $ = require("sprint-js");
 
 class Login extends Component {
-  handleSubmit(e) {
+  static handleSubmit(e) {
     e.preventDefault();
 
-    var email = $("#form-email").val();
-    var password = $("#form-password").val();
+    const email = $('#form-email').val();
+    const password = $('#form-password').val();
 
     console.log('email: ' + email + ' password: ' + password);
 
@@ -31,16 +32,28 @@ class Login extends Component {
           <form onSubmit={this.handleSubmit}>
             <div className="form">
               <label htmlFor="form-email">Email: </label>
-              <input id="form-email" type="email" placeholder="max@mustermann.at" autoComplete="email" required/>
+              <input
+                id="form-email"
+                type="email"
+                placeholder="max@mustermann.at"
+                autoComplete="email"
+                required
+              />
             </div>
             <div className="form">
               <label htmlFor="form-password">Password: </label>
-              <input id="form-password" type="password" autoComplete="current-password" placeholder="******" required/>
+              <input
+                id="form-password"
+                type="password"
+                autoComplete="current-password"
+                placeholder="******"
+                required
+              />
             </div>
             <input type="submit" value="Login" />
           </form>
         </div>
-    </section>
+      </section>
     );
   }
 }

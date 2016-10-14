@@ -1,29 +1,31 @@
 import React, { Component } from 'react';
-import { hashHistory } from 'react-router'
+import { hashHistory } from 'react-router';
+import * as firebase from 'firebase';
 
-var $ = require("sprint-js");
+const $ = require('sprint-js');
 
 class Register extends Component {
-  handleChange(event) {
-    var passwordInput = event.target;
-    var password = passwordInput.value;
+
+  static handleChange(e) {
+    const passwordInput = e.target;
+    const password = passwordInput.value;
 
     if (password.length < 8) {
       passwordInput.setCustomValidity(
-        "Password has to be longer than 8 characters");
-    } else if (!password.match(/[\!\@\#\$\%\^\&\*\(\)\_\+]/g)){
+        'Password has to be longer than 8 characters');
+    } else if (!password.match(/[!@#$%^&\*\(\)_+]/g)) {
       passwordInput.setCustomValidity(
-        "Add atleast one of the following symbols: !@#$%^&*()_+");
+        'Add atleast one of the following symbols: !@#$%^&*()_+');
     } else {
-      passwordInput.setCustomValidity("");
+      passwordInput.setCustomValidity('');
     }
   }
 
-  handleSubmit(e) {
+  static handleSubmit(e) {
     e.preventDefault();
 
-    var email = $("#form-email").val();
-    var password = $("#form-password").val();
+    const email = $('#form-email').val();
+    const password = $('#form-password').val();
 
     console.log('email: ' + email + ' password: ' + password);
 
@@ -33,8 +35,8 @@ class Register extends Component {
               hashHistory.push('/');
             })
             .catch(function(error) {
-              var errorCode = error.code;
-              var errorMessage = error.message;
+              // avar errorCode = error.code;
+              // var errorMessage = error.message;
             });
   }
 
