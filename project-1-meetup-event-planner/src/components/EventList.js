@@ -1,18 +1,37 @@
-import React, { PropTypes } from 'react';
+import React, { Component } from 'react';
+import Base from '../core/firebase';
+import Event from './Event';
 
-const EventList = ({ events }) =>
-  <ul>
-    {events.map(event =>
-      <li>
-        {event.name}
-      </li>
-    )}
-  </ul>;
+class EventList extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      events: []
+    };
+  }
+
+  componentDidMount() {
+    Base.bindToState(`${this.props.user.uid}/events`, {
+      context: this,
+      state: 'events',
+      asArray: true
+    });
+  }
+
+  render() {
+    return (
+      <div className="event-list">
+        {this.state.events.map((event, i) =>
+          <Event name={event.name} key={i} />
+        )}
+      </div>
+    );
+  }
+}
 
 EventList.propTypes = {
-  events: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired
-  }).isRequired).isRequired,
+  user: React.PropTypes.object
 };
 
 export default EventList;

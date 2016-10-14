@@ -1,10 +1,10 @@
 import React from 'react';
-import RegisterFormContainer from './containers/RegisterFormContainer';
+import RegisterForm from '../components/RegisterForm';
 
 const Register = () => {
   return (
     <section id="register-form-container">
-      <RegisterFormContainer />
+      <RegisterForm />
     </section>
   );
 };

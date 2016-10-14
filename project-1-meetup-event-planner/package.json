@@ -22,13 +22,12 @@
   },
   "dependencies": {
     "firebase": "^3.4.1",
+    "material-design-lite": "^1.2.1",
     "normalize.css": "^4.2.0",
+    "re-base": "^2.2.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
-    "react-redux": "^4.4.5",
     "react-router": "^2.8.1",
-    "redux": "^3.6.0",
-    "redux-thunk": "^2.1.0",
     "sprint-js": "^0.1.0"
   },
   "scripts": {}
