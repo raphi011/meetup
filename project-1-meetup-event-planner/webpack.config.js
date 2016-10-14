@@ -1,19 +1,19 @@
 module.exports = {
-  entry: "./src/index.js",
+  entry: './src/index.js',
   output: {
     path: __dirname,
-    filename: "bundle.js"
+    filename: 'bundle.js'
   },
   module: {
     loaders: [
       {
         test: /\.css$/,
-        loader: "style!css"
+        loader: 'style!css'
       },
       {
         test: /\.scss$/,
         exclude: /node_modules/,
-        loaders: ["style", "css", "sass"]
+        loaders: ['style', 'css', 'sass']
       },
       {
         test: /\.js$/,

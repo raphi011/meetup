@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
 import * as firebase from 'firebase';
-import * as config from '../../firebase.config.js';
+import * as config from '../../firebase.config';
+
 firebase.initializeApp(config);
 
 function requireAuth(nextState, replace) {
-    if(null === firebase.auth().currentUser) {
-        replace({
-          pathname: '/login',
-          state: { nextPathname: nextState.location.pathname }
-        })
-    }
+  if (firebase.auth().currentUser === null) {
+    replace({
+      pathname: '/login',
+      state: { nextPathname: nextState.location.pathname },
+    });
+  }
 }
 
 module.exports = requireAuth;

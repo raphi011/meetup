@@ -1,21 +1,21 @@
-import React, { Component } from 'react';
-import Header from './Header';
+import React from 'react';
 
 import 'normalize.css';
-import './styles/global.scss';
-import 'sprint-js/sprint.js';
+import 'sprint-js/sprint';
 
-class App extends Component {
-  render() {
-    return (
-      <div>
-        <Header/>
-        <main>
-          {this.props.children}
-        </main>
-      </div>
-    );
-  }
-}
+import Header from './Header';
+import './styles/global.scss';
+
+const App = props =>
+  <div>
+    <Header />
+    <main>
+      {props.children}
+    </main>
+  </div>;
+
+App.propTypes = {
+  children: React.PropTypes.any
+};
 
 export default App;
