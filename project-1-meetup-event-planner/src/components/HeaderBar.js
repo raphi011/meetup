@@ -25,13 +25,15 @@ class HeaderBar extends Component {
     var link;
 
     if (this.state.user === null) {
-      link = <Link to="/login" className="mdl-navigation__link">login</Link>;
+      link = <Link to="/login">login</Link>;
     } else {
-      link = <Logout className="mdl-navigation__link" />;
+      link = <Logout />;
     }
 
+    const title = <Link to="/" id="title" >meetup</Link>
+
     return (
-      <Header title="meetup" scroll>
+      <Header title={title} scroll>
         <Navigation>
           {link}
         </Navigation>

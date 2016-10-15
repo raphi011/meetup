@@ -35,6 +35,7 @@ const LoginForm = () =>
         id="form-email"
         type="email"
         autoComplete="email"
+        autoFocus
         floatingLabel
         required
       />

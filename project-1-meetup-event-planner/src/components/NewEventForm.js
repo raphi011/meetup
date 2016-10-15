@@ -29,11 +29,11 @@ class NewEventForm extends Component {
   render() {
     return (
       <form onSubmit={this.onSubmit.bind(this)}>
-        <h4>Create new event</h4>
         <Textfield
           label="Name"
           id="event-name"
           type="text"
+          autoFocus
         />
         <Button
           type="submit"
