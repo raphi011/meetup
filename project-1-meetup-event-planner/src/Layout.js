@@ -1,19 +1,25 @@
 import React from 'react';
+import {Layout, Content} from 'react-mdl';
 
-// import 'normalize.css';
 import 'sprint-js/sprint';
-
-import Header from './components/Header';
+import 'react-mdl/extra/material.css';
+import 'react-mdl/extra/material.js';
 import './styles/global.scss';
+
+
+
+import HeaderBar from './components/HeaderBar';
 
 const App = props =>
   <div className="mdl-layout mdl-layout--no-drawer-button mdl-js-layout mdl-layout--fixed-header">
-    <Header />
-    <main className="mdl-layout__content">
-      <div className="page-content">
-        {props.children}
-      </div>
-    </main>
+    <Layout fixedHeader>
+      <HeaderBar />
+      <Content>
+        <div className="page-content">
+          {props.children}
+        </div>
+      </Content>
+    </Layout>
   </div>;
 
 App.propTypes = {

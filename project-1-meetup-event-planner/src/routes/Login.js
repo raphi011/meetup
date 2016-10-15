@@ -1,24 +1,39 @@
-import React from 'react';
+import React, {Component} from 'react';
 import LoginForm from '../components/LoginForm';
 import RegisterForm from '../components/RegisterForm';
+import {Tabs, Tab} from 'react-mdl';
 
-const Login = () => {
-  return (
-    <section id="login-form-container">
-      <div className="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
-        <div className="mdl-tabs__tab-bar">
-          <a href="#login-panel" className="mdl-tabs__tab is-active">Login</a>
-          <a href="#register-panel" className="mdl-tabs__tab">Register</a>
+class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { activeTab: 0 };
+  }
+
+  componentDidMount() {
+    window.componentHandler.upgradeAllRegistered();
+  }
+
+  render() {
+    let currentTab;
+
+    if (this.state.activeTab === 0) {
+      currentTab = <LoginForm />;
+    } else {
+      currentTab = <RegisterForm />;
+    }
+
+    return (
+      <section id="login-form-container">
+        <div id="login-form">
+          <Tabs activeTab={this.state.activeTab} onChange={tabId => this.setState({ activeTab: tabId })} ripple>
+            <Tab>Login</Tab>
+            <Tab>Register</Tab>
+          </Tabs>
+          {currentTab}
         </div>
-        <div className="mdl-tabs__panel is-active" id="login-panel">
-          <LoginForm />
-        </div>
-        <div className="mdl-tabs__panel" id="register-panel">
-          <RegisterForm />
-        </div>
-      </div>
-    </section>
-  );
-};
+      </section>
+    );
+  }
+}
 
 export default Login;

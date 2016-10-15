@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Base from '../core/firebase';
+import {Textfield, Button} from 'react-mdl';
 
 import $ from 'sprint-js';
 
@@ -29,11 +30,19 @@ class NewEventForm extends Component {
     return (
       <form onSubmit={this.onSubmit.bind(this)}>
         <h4>Create new event</h4>
-        <div className="mdl-textfield mdl-js-textfield">
-          <input type="text" className="mdl-textfield__input" id="event-name" />
-          <label className="mdl-textfield__label" htmlFor="event-name">Name</label>
-        </div>
-        <input type="submit" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" value="Create" />
+        <Textfield
+          label="Name"
+          id="event-name"
+          type="text"
+        />
+        <Button
+          type="submit"
+          className="create-event-button"
+          raised
+          colored
+          ripple>
+          Create
+        </Button>
       </form>
     );
   }

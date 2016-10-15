@@ -1,4 +1,5 @@
 import React from 'react';
+import {Textfield, Button} from 'react-mdl';
 
 const $ = require('sprint-js');
 
@@ -27,51 +28,40 @@ const handleSubmit = (e, register) => {
 };
 
 const RegisterForm = ({ register }) =>
-  <div className="register-form">
-    <h1>Signup!</h1>
+  <div>
     <form onSubmit={e => handleSubmit(e, register)}>
-      <div className="form">
-        <label htmlFor="form-name">Name: </label>
-        <input
-          id="form-name"
-          type="text"
-          placeholder="Max Mustermann"
-          autoComplete="name"
-          autoFocus
-          required
-        />
-      </div>
-      <div className="form">
-        <label htmlFor="form-email">Email: </label>
-        <input
-          id="form-email"
-          type="email"
-          placeholder="max@mustermann.at"
-          autoComplete="email"
-          required
-        />
-      </div>
-      <div className="form">
-        <label htmlFor="form-password">Password: </label>
-        <input
-          id="form-password"
-          onChange={handleChange}
-          type="password"
-          autoComplete="new-password"
-          placeholder="******"
-          required
-        />
-      </div>
-      <div className="form">
-        <label htmlFor="form-name">Birthday: </label>
-        <input
-          id="form-name"
-          type="date"
-          data-date-format="dd.mm.yyyy"
-          autoComplete="bday"
-        />
-      </div>
-      <input type="submit" value="Go" />
+      <Textfield
+        label="Name"
+        id="form-name"
+        type="text"
+        autoComplete="name"
+        autoFocus
+        floatingLabel
+        required
+      />
+      <Textfield
+        label="Email"
+        id="form-email"
+        type="email"
+        autoComplete="email"
+        floatingLabel
+        required
+      />
+      <Textfield
+        label="Password"
+        id="form-password"
+        type="password"
+        autoComplete="new-password"
+        floatingLabel
+        required
+      />
+      <Textfield
+        label="Birthday"
+        id="form-birthday"
+        autoComplete="bday"
+        floatingLabel
+      />
+      <Button type="submit" className="submit-button" raised colored ripple>Go</Button>
     </form>
   </div>;
 
