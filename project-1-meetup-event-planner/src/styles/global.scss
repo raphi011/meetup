@@ -1,69 +1,8 @@
-.demo-card-event.mdl-card {
-  width: 256px;
-  height: 256px;
-  background: #3E4EB8;
-  margin: 20px;
-}
-.demo-card-event > .mdl-card__actions {
-  border-color: rgba(255, 255, 255, 0.2);
-}
-.demo-card-event > .mdl-card__title {
-  align-items: flex-start;
-}
-.demo-card-event > .mdl-card__title > h4 {
-  margin-top: 0;
-}
-.demo-card-event > .mdl-card__actions {
-  display: flex;
-  box-sizing:border-box;
-  align-items: center;
-}
-.demo-card-event > .mdl-card__actions > .material-icons {
-  padding-right: 10px;
-}
-.demo-card-event > .mdl-card__title,
-.demo-card-event > .mdl-card__actions,
-.demo-card-event > .mdl-card__actions > .mdl-button {
-  color: #fff;
-}
-
-.event-list {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-/*
-
-@import './variables.scss';
 @import './register-form.scss';
-@import './nav.scss';
+@import './events.scss';
+@import '../../node_modules/material-design-lite/src/typography/_typography.scss';
 
-html, main, body {
-  height: 100%;
+h1 {
+  font-weight: 400;
+  @inherit .mdl-typography--display-4;
 }
-
-input {
-  font-size: 16px;
-
-  border-width: 0 0 1px 0;
-
-  &:focus {
-    outline: none;
-  }
-}
-
-a {
-  &:link {
-    text-decoration: inherit;
-    color: inherit;
-    cursor: auto;
-  }
-
-  &:visited {
-    text-decoration: inherit;
-    color: inherit;
-    cursor: auto;
-  }
-}
-
-*/

@@ -24,12 +24,18 @@ class Event extends Component {
           <div className="mdl-layout-spacer"></div>
           <i className="material-icons">event</i>
         </div>
+        <div className="mdl-card__menu">
+          <button onClick={this.props.delete} className="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+            <i className="material-icons">delete</i>
+          </button>
+        </div>
       </div>
     );
   }
 }
 
 Event.propTypes = {
+  delete: React.PropTypes.func,
   name: React.PropTypes.string
 };
 

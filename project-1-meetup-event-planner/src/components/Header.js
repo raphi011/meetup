@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
+import Logout from './Logout';
 
 const Header = () => {
   return (
@@ -9,7 +10,7 @@ const Header = () => {
         <div className="mdl-layout-spacer"></div>
         <nav className="mdl-navigation">
           <Link to="/login" className="mdl-navigation__link">login</Link>
-          <Link to="/register" className="mdl-navigation__link">register</Link>
+          <Logout className="mdl-navigation__link" />
         </nav>
       </div>
     </header>

@@ -30,5 +30,9 @@
     "react-router": "^2.8.1",
     "sprint-js": "^0.1.0"
   },
-  "scripts": {}
+  "scripts": {
+    "start": "webpack-dev-server --hot --progress --colors --history-api-fallback",
+    "build": "webpack --progress --colors",
+    "deploy": "firebase deploy"
+  }
 }

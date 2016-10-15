@@ -1,62 +1,19 @@
 @import './variables.scss';
 
-#register-form-container {
+#login-form-container {
   display: flex;
-  align-items: center;
+  margin-top: 200px;
 }
 
-.register-form {
+.mdl-tabs {
+  width: 300px;
   margin: auto;
-  border-width: 1px;
-  border-radius: 6px;
-  padding: 10px;
-
-  h1 {
-    font-size: 40px;
-    text-align: center;
-    font-weight: 100;
-  }
-
-  .form {
-    margin: 20px 0;
-  }
-
-  label {
-    display: inline-block;
-    min-width: 95px;
-    color: $color1;
-    font-weight: bold;
-  }
-
-  input {
-    min-height: 35px;
-    padding: 5px;
-    text-align: center;
-
-    &:focus {
-      border-bottom-color: $color4;
-    }
-  }
-
-  input[type=submit] {
-    background-color: $color4;
-    color: white;
-    width: 100%;
-    padding: 7px 0;
-    font-weight: bold;
-
-    &:hover {
-      background-color: $color5;
-    }
-  }
 }
 
-.bio-toggle   {
-  &.open > #arrow-right {
-      display: none;
-  }
+#login-form {
+  margin: auto;
+}
 
-  &.closed > #arrow-down {
-      display: none;
-  }
+.submit-button {
+  width: 100%;
 }

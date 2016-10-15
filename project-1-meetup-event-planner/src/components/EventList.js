@@ -12,10 +12,18 @@ class EventList extends Component {
   }
 
   componentDidMount() {
-    Base.bindToState(`${this.props.user.uid}/events`, {
+    Base.syncState(`${this.props.user.uid}/events`, {
       context: this,
       state: 'events',
       asArray: true
+    });
+  }
+
+  deleteEvent(index) {
+    var events = this.state.events;
+    events.splice(index, 1);
+    this.setState({
+      events: events
     });
   }
 
@@ -23,7 +31,7 @@ class EventList extends Component {
     return (
       <div className="event-list">
         {this.state.events.map((event, i) =>
-          <Event name={event.name} key={i} />
+          <Event name={event.name} key={i} delete={this.deleteEvent.bind(this)} />
         )}
       </div>
     );

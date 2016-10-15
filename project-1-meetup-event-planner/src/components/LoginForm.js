@@ -1,22 +1,20 @@
 import React from 'react';
-import { hashHistory } from 'react-router';
+import { browserHistory } from 'react-router';
 
 import Base from '../core/firebase';
-
 import $ from 'sprint-js';
 
-const authHandler = function(error, user) {
+function authHandler(error, user) {
   if (user) {
     console.log('logged in');
-    hashHistory.push('/');
+    browserHistory.push('/');
   } else {
     console.log('not logged in');
   }
-};
+}
 
 const LoginForm = () =>
   <div className="register-form">
-    <h1>Login!</h1>
     <form
       onSubmit={e => {
         e.preventDefault();
@@ -29,27 +27,32 @@ const LoginForm = () =>
           password
         }, authHandler);
       }}>
-      <div className="form">
-        <label htmlFor="form-email">Email: </label>
+      <div className="mdl-textfield mdl-js-textfield">
         <input
+          className="mdl-textfield__input"
           id="form-email"
           type="email"
           placeholder="max@mustermann.at"
           autoComplete="email"
           required
         />
+        <label className="mdl-textfield__label" htmlFor="form-email">Email</label>
       </div>
-      <div className="form">
-        <label htmlFor="form-password">Password: </label>
+      <div className="mdl-textfield mdl-js-textfield">
         <input
+          className="mdl-textfield__input"
           id="form-password"
           type="password"
           autoComplete="current-password"
           placeholder="******"
           required
         />
+        <label className="mdl-textfield__label" htmlFor="form-password">Password</label>
       </div>
-      <input type="submit" value="Login" />
+      <button
+        type="submit"
+        className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent submit-button">
+      Login</button>
     </form>
   </div>;
 
