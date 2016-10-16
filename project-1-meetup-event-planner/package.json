@@ -35,6 +35,6 @@
   "scripts": {
     "start": "webpack-dev-server --hot --progress --colors --history-api-fallback",
     "build": "webpack --progress --colors",
-    "deploy": "firebase deploy"
+    "deploy": "npm run build && cp index.html bundle.js public && firebase deploy"
   }
 }

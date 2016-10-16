@@ -1,6 +1,13 @@
 {
   "rules": {
     ".read": "auth != null",
-    ".write": "auth != null"
+    ".write": "auth != null",
+    "events": {
+      "$uid": {
+        ".indexOn": ["timestamp"],
+        ".write": "$uid === auth.uid",
+        ".read": "$uid === auth.uid"
+      }
+    }
   }
 }

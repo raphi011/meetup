@@ -5,14 +5,14 @@ function handleLogout() {
   Base.unauth();
 }
 
-const Logout = ({className}) => {
+const LogoutLink = ({className}) => {
   return (
     <a href="#" onClick={handleLogout} className={className}>logout</a>
   );
 };
 
-Logout.propTypes = {
+LogoutLink.propTypes = {
   className: React.PropTypes.string
 };
 
-export default Logout;
+export default LogoutLink;

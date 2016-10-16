@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router';
-import Logout from './Logout';
+import LogoutLink from './LogoutLink';
 import Base from '../core/firebase';
 import {Header, Navigation} from 'react-mdl';
 
@@ -27,7 +27,7 @@ class HeaderBar extends Component {
     if (this.state.user === null) {
       link = <Link to="/login">login</Link>;
     } else {
-      link = <Logout />;
+      link = <LogoutLink />;
     }
 
     const title = <Link to="/" id="title" >meetup</Link>

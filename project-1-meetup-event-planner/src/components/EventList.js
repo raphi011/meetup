@@ -12,10 +12,13 @@ class EventList extends Component {
   }
 
   componentDidMount() {
-    Base.syncState(`${this.props.user.uid}/events`, {
+    Base.syncState(`/events/${this.props.user.uid}`, {
       context: this,
       state: 'events',
-      asArray: true
+      asArray: true,
+      queries: {
+        orderByChild: 'timestamp'
+      }
     });
   }
 

@@ -9,13 +9,11 @@ class NewEventForm extends Component {
     super(props);
   }
 
-  onSubmit(e) {
-    e.preventDefault();
-
+  submit() {
     const name = $('#event-name').val();
 
-    Base.push(`${this.props.user.uid}/events`, {
-      data: { name },
+    Base.push(`/events/${this.props.user.uid}`, {
+      data: { name, timestamp: new Date().getTime() },
       then(err) {
         if (!err) {
           $('#event-name').val('');
@@ -24,31 +22,50 @@ class NewEventForm extends Component {
         }
       }
     });
+
+    console.log('submitted');
+
+    this.props.onSubmitted();
+  }
+
+  _onSubmit(e) {
+    e.preventDefault();
+
+    this.submit();
   }
 
   render() {
+    var submitButton = (
+      <Button
+        type="submit"
+        className="create-event-button"
+        raised
+        colored
+        ripple>
+        Create
+      </Button>);
+
+    if (!this.props.showSubmitButton) {
+      submitButton = null;
+    }
+
     return (
-      <form onSubmit={this.onSubmit.bind(this)}>
+      <form onSubmit={this._onSubmit.bind(this)}>
         <Textfield
           label="Name"
           id="event-name"
           type="text"
           autoFocus
         />
-        <Button
-          type="submit"
-          className="create-event-button"
-          raised
-          colored
-          ripple>
-          Create
-        </Button>
+        {submitButton}
       </form>
     );
   }
 }
 
 NewEventForm.propTypes = {
+  onSubmitted: React.PropTypes.func,
+  showSubmitButton: React.PropTypes.bool,
   user: React.PropTypes.object
 };
 
