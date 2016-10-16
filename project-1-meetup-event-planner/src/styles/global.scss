@@ -1,6 +1,19 @@
 @import './register-form.scss';
 @import './events.scss';
 
+
+html,
+body,
+#root,
+.mdl-layout,
+.mdl-layout__inner-container,
+.mdl-layout__content,
+.page-content,
+#login-form-container {
+  height: 100%;
+
+}
+
 .page-content {
   max-width: 960px;
   margin: 0 auto;

@@ -7,10 +7,7 @@ import $ from 'sprint-js';
 
 function authHandler(error, user) {
   if (user) {
-    console.log('logged in');
     browserHistory.push('/');
-  } else {
-    console.log('not logged in');
   }
 }
 

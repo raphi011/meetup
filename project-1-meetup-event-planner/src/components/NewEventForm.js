@@ -23,8 +23,6 @@ class NewEventForm extends Component {
       }
     });
 
-    console.log('submitted');
-
     this.props.onSubmitted();
   }
 
@@ -55,8 +53,18 @@ class NewEventForm extends Component {
           label="Name"
           id="event-name"
           type="text"
+          required
           autoFocus
         />
+        <Textfield
+          label="Type"
+          list="events"
+          type="text"
+        />
+        <datalist id="events">
+          <option value="Birthday" />
+          <option value="Conference" />
+        </datalist>
         {submitButton}
       </form>
     );

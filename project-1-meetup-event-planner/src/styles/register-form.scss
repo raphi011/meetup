@@ -1,12 +1,11 @@
 #login-form-container {
   display: flex;
-  margin-top: 200px;
+  justify-content: center;
+  align-items: center;
 }
 
 #login-form {
   width: 300px;
-  margin: auto;
-
 }
 
 .submit-button {
