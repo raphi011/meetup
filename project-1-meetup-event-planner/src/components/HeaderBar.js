@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router';
 import Base from '../core/firebase';
-import {Header, Navigation} from 'react-mdl';
 import {browserHistory} from 'react-router';
 
 import AppBar from 'material-ui/AppBar';

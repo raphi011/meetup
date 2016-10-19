@@ -4,12 +4,12 @@ import NewEventForm from '../components/NewEventForm';
 
 const New = ({user}) => {
   return (
-    <div className="mdl-grid" >
-      <div className="mdl-cell mdl-cell--12-col">
-        <NewEventForm user={user} showSubmitButton={true} />
-      </div>
-    </div>
+    <NewEventForm user={user} />
   );
+};
+
+New.propTypes = {
+  user: React.PropTypes.object
 };
 
 export default New;

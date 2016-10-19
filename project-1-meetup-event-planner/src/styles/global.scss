@@ -11,13 +11,19 @@ body,
 .page-content,
 #login-form-container {
   height: 100%;
-
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: normal;
+}
+
+/*
 .page-content {
   max-width: 960px;
   margin: 0 auto;
-}
+  padding: 0 15px;
+} */
 
 .add-event-button {
   position: fixed;

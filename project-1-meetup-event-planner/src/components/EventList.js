@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import {Grid, Row, Col} from 'react-flexbox-grid/lib/index';
 import Event from './Event';
 import Base from '../core/firebase';
+
 
 class EventList extends Component {
   constructor(props) {
@@ -12,8 +14,7 @@ class EventList extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.user);
-    Base.syncState(`/events/${this.props.user.uid}`, {
+    this.ref = Base.syncState(`/events/${this.props.user.uid}`, {
       context: this,
       state: 'events',
       asArray: true,
@@ -23,21 +24,33 @@ class EventList extends Component {
     });
   }
 
+  componentWillUnmount(){
+    Base.removeBinding(this.ref);
+  }
+
   deleteEvent(index) {
     var events = this.state.events;
     events.splice(index, 1);
     this.setState({
       events: events
     });
+
+    if (this.props.onDeleted) {
+      this.props.onDeleted();
+    }
   }
 
   render() {
     return (
-      <div className="event-list">
-        {this.state.events.map((event, i) =>
-          <Event name={event.name} key={i} delete={this.deleteEvent.bind(this)} />
-        )}
-      </div>
+      <Grid>
+        <Row>
+          {this.state.events.map((event, i) =>
+            <Col key={i} xs={12} sm={6} md={3}>
+              <Event event={event} key={i} delete={this.deleteEvent.bind(this)} />
+            </Col>
+          )}
+        </Row>
+      </Grid>
     );
   }
 }

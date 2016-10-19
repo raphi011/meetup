@@ -1,13 +1,13 @@
 import React from 'react';
 import {browserHistory} from 'react-router';
-import {Textfield, Button} from 'react-mdl';
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
 
 import Base from '../core/firebase';
 import $ from 'sprint-js';
 
 function authHandler(error, user) {
   if (user) {
-    // wait for firebase to reflect logged in state
     setTimeout(() => {
       browserHistory.push('/');
     }, 100);
@@ -30,24 +30,24 @@ const LoginForm = () =>
   <div>
     <form
       onSubmit={e => onSubmit(e)}>
-      <Textfield
-        label="Email"
+      <TextField
+        floatingLabelText="Email"
         id="form-email"
         type="email"
+        fullWidth={true}
         autoComplete="email"
         autoFocus
-        floatingLabel
         required
       />
-      <Textfield
-        label="Password"
+      <TextField
+        floatingLabelText="Password"
         id="form-password"
         type="password"
+        fullWidth={true}
         autoComplete="current-password"
-        floatingLabel
         required
       />
-      <Button type="submit" className="submit-button" raised colored ripple>Login</Button>
+      <RaisedButton type="submit" fullWidth={true} label="Login" primary={true} />
     </form>
   </div>;
 

@@ -1,42 +1,72 @@
-import React, { Component } from 'react';
+import React from 'react';
+import {Card, CardActions, CardHeader, CardTitle, CardText} from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
+import moment from 'momentjs';
 
-class Event extends Component {
-  constructor(props) {
-    super(props);
+function formattedDateTime(event) {
+  var startDate = moment(new Date(event.startDate));
+  var endDate = moment(new Date(event.endDate));
+  var startTime, endTime;
 
-    this.state = {
-      events: []
-    };
+  if (!event.allDay) {
+    startTime = moment(new Date(event.startTime));
+    endTime = moment(new Date(event.endTime));
   }
 
-  render() {
-    return (
-      <div className="demo-card-event mdl-card mdl-shadow--2dp">
-        <div className="mdl-card__title mdl-card--expand">
-          <h4>
-            {this.props.name}
-          </h4>
-        </div>
-        <div className="mdl-card__actions mdl-card--border">
-          <a className="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-            Add to Calendar
-          </a>
-          <div className="mdl-layout-spacer"></div>
-          <i className="material-icons">event</i>
-        </div>
-        <div className="mdl-card__menu">
-          <button onClick={this.props.delete} className="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-            <i className="material-icons">delete</i>
-          </button>
-        </div>
-      </div>
-    );
+  let firstLine = '';
+  let secondLine = '';
+
+  if (event.startDate === event.endDate) {
+    firstLine = startDate.format();
+
+    if (!event.allDay) {
+      firstLine += ' ' + startTime.format('hh:mm') + '-' + endTime.format('hh:mm');
+    }
+  } else {
+    firstLine = startDate.format();
+    secondLine = endDate.format();
+
+    if (!event.allDay) {
+      firstLine += ' ' + startTime.format('hh:mm');
+      secondLine += ' ' + endTime.format('hh:mm');
+    }
+    firstLine += ' -'
   }
+
+  return (
+    <div>
+      {firstLine}<br />
+      {secondLine}
+    </div>
+  );
 }
+
+const Event = props => (
+    <Card className="event-card">
+      <CardTitle
+        title={props.event.name}
+        subtitle={
+          <div>
+            {props.event.host}<br />
+            {formattedDateTime(props.event)}
+            {props.event.type ?  props.event.type : ''}<br />
+            {props.event.location ?  props.event.location : ''}
+          </div>}
+      / >
+      <CardText>
+        {props.event.message ? props.event.message : ''}
+        <br />
+        {props.event.guests ? 'Guestlist: ' + props.event.guests : ''}
+      </CardText>
+      <CardActions>
+        <FlatButton label="Delete" onClick={props.delete} />
+      </CardActions>
+    </Card>
+);
 
 Event.propTypes = {
   delete: React.PropTypes.func,
-  name: React.PropTypes.string
+  event: React.PropTypes.object
 };
 
 export default Event;
