@@ -11,12 +11,14 @@ class LoginForm extends Component {
 
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      error: ''
     };
 
     this.handleSetPassword = this.handleSetPassword.bind(this);
     this.handleSetEmail = this.handleSetEmail.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.authHandler = this.authHandler.bind(this);
   }
 
   handleSetPassword(e) {
@@ -32,6 +34,10 @@ class LoginForm extends Component {
       setTimeout(() => {
         browserHistory.push('/');
       }, 100);
+    }
+
+    if (error) {
+      this.setState({error: error.message});
     }
   }
 
@@ -64,6 +70,7 @@ class LoginForm extends Component {
             type="password"
             onChange={this.handleSetPassword}
             value={this.state.password}
+            errorText={this.state.error}
             fullWidth={true}
             autoComplete="current-password"
             required
