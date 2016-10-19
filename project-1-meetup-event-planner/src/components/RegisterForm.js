@@ -1,5 +1,7 @@
 import React from 'react';
 import {Textfield, Button} from 'react-mdl';
+import { browserHistory } from 'react-router';
+import Base from '../core/firebase';
 
 const $ = require('sprint-js');
 
@@ -18,18 +20,32 @@ const handleChange = e => {
   }
 };
 
-const handleSubmit = (e, register) => {
+function handleSubmit(e) {
   e.preventDefault();
 
   const email = $('#form-email').val();
   const password = $('#form-password').val();
 
-  register(email, password);
-};
+  Base.createUser({
+    email,
+    password
+  }, authHandler);
+}
 
-const RegisterForm = ({ register }) =>
+function authHandler(error, user) {
+  if (user) {
+    const name = $('#form-name').val();
+    user.updateProfile({
+      displayName: name
+    }, function() {
+      browserHistory.push('/');
+    });
+  }
+}
+
+const RegisterForm = () =>
   <div>
-    <form onSubmit={e => handleSubmit(e, register)}>
+    <form onSubmit={e => handleSubmit(e)}>
       <Textfield
         label="Name"
         id="form-name"

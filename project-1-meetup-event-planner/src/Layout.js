@@ -1,26 +1,25 @@
 import React from 'react';
-import {Layout, Content} from 'react-mdl';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import 'sprint-js/sprint';
 import 'react-mdl/extra/material.css';
 import 'react-mdl/extra/material.js';
 import './styles/global.scss';
 
-
+injectTapEventPlugin();
 
 import HeaderBar from './components/HeaderBar';
 
 const App = props =>
-  <div className="mdl-layout mdl-layout--no-drawer-button mdl-js-layout mdl-layout--fixed-header">
-    <Layout fixedHeader>
+  <MuiThemeProvider>
+    <div>
       <HeaderBar />
-      <Content>
-        <div className="page-content">
-          {props.children}
-        </div>
-      </Content>
-    </Layout>
-  </div>;
+      <div className="page-content">
+        {props.children}
+      </div>
+    </div>
+  </MuiThemeProvider>;
 
 App.propTypes = {
   children: React.PropTypes.any

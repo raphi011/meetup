@@ -1,8 +1,17 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router';
-import LogoutLink from './LogoutLink';
 import Base from '../core/firebase';
 import {Header, Navigation} from 'react-mdl';
+import {browserHistory} from 'react-router';
+
+import AppBar from 'material-ui/AppBar';
+import FlatButton from 'material-ui/FlatButton';
+
+const styles = {
+  title: {
+    cursor: 'pointer'
+  }
+};
 
 class HeaderBar extends Component {
   constructor(props) {
@@ -21,23 +30,31 @@ class HeaderBar extends Component {
     this.setState({user});
   }
 
+  handleLogout() {
+    Base.unauth();
+    browserHistory.push('/login');
+  }
+
+  handleTouchTap() {
+    browserHistory.push('/');
+  }
+
   render() {
-    var link;
+    var button;
 
     if (this.state.user === null) {
-      link = <Link to="/login">login</Link>;
+      button = <FlatButton onClick={() => browserHistory.push('/login')} label="login" />;
     } else {
-      link = <LogoutLink />;
+      button = <FlatButton onClick={this.handleLogout} label="logout" />;
     }
 
-    const title = <Link to="/" id="title" >meetup</Link>
-
     return (
-      <Header title={title} scroll>
-        <Navigation>
-          {link}
-        </Navigation>
-      </Header>
+      <AppBar
+        title={<span style={styles.title}>meetup</span>}
+        onTitleTouchTap={this.handleTouchTap}
+        showMenuIconButton={false}
+        iconElementRight={button}
+      />
     );
   }
 }

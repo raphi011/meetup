@@ -1,72 +1,34 @@
 import React, {Component} from 'react';
-import {Dialog, DialogTitle, DialogContent, DialogActions, Button, FABButton, Icon} from 'react-mdl';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 
-import Base from '../core/firebase';
-import NewEventForm from '../components/NewEventForm';
+
+import { browserHistory } from 'react-router';
+
 import EventList from '../components/EventList';
 
 class Home extends Component {
   constructor(props) {
     super(props);
-
-    this.user = Base.auth().currentUser;
-    this.state = {
-      showDialog: false
-    };
+    console.log('home received prop user: ' + props.user);
   }
 
-  openDialog() {
-    this.setState({showDialog: true});
-  }
-
-  closeDialog() {
-    this.setState({showDialog: false});
-  }
-
-  saveDialog() {
-    this._newEventForm.submit(this.user.uid);
+  addEvent() {
+    browserHistory.push('/new');
   }
 
   render() {
     return (
       <div className="home-container">
-        <EventList user={this.user} />
-        <FABButton
-          onClick={this.openDialog.bind(this)}
+        <EventList user={this.props.user} />
+        <FloatingActionButton
           className="add-event-button"
-          ripple
-          colored>
-          <Icon name="add" />
-        </FABButton>
-        <Dialog open={this.state.showDialog}>
-          <DialogTitle>Create Event</DialogTitle>
-          <DialogContent>
-            <NewEventForm
-              user={this.user}
-              ref={nef => this._newEventForm = nef}
-              onSubmitted={this.closeDialog.bind(this)}
-              showSubmitButton={false}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button
-              type="button"
-              onClick={this.saveDialog.bind(this)}>
-              Save
-            </Button>
-            <Button
-              type="button"
-              onClick={this.closeDialog.bind(this)}>
-              Close
-            </Button>
-          </DialogActions>
-        </Dialog>
+          onClick={this.addEvent}>
+          <ContentAdd />
+        </FloatingActionButton>
       </div>
     );
   }
 }
-/*
-
-*/
 
 export default Home;

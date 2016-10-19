@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Base from '../core/firebase';
 import Event from './Event';
+import Base from '../core/firebase';
 
 class EventList extends Component {
   constructor(props) {
@@ -12,6 +12,7 @@ class EventList extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props.user);
     Base.syncState(`/events/${this.props.user.uid}`, {
       context: this,
       state: 'events',
@@ -41,8 +42,6 @@ class EventList extends Component {
   }
 }
 
-EventList.propTypes = {
-  user: React.PropTypes.object
-};
+
 
 export default EventList;

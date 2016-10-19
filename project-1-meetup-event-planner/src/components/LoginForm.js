@@ -1,5 +1,5 @@
 import React from 'react';
-import { browserHistory } from 'react-router';
+import {browserHistory} from 'react-router';
 import {Textfield, Button} from 'react-mdl';
 
 import Base from '../core/firebase';
@@ -7,7 +7,10 @@ import $ from 'sprint-js';
 
 function authHandler(error, user) {
   if (user) {
-    browserHistory.push('/');
+    // wait for firebase to reflect logged in state
+    setTimeout(() => {
+      browserHistory.push('/');
+    }, 100);
   }
 }
 
