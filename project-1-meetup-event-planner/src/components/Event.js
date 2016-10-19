@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, CardActions, CardHeader, CardTitle, CardText} from 'material-ui/Card';
+import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import moment from 'momentjs';
 
@@ -30,7 +30,7 @@ function formattedDateTime(event) {
       firstLine += ' ' + startTime.format('hh:mm');
       secondLine += ' ' + endTime.format('hh:mm');
     }
-    firstLine += ' -'
+    firstLine += ' -';
   }
 
   return (
@@ -42,26 +42,26 @@ function formattedDateTime(event) {
 }
 
 const Event = props => (
-    <Card className="event-card">
-      <CardTitle
-        title={props.event.name}
-        subtitle={
-          <div>
-            {props.event.host}<br />
-            {formattedDateTime(props.event)}
-            {props.event.type ?  props.event.type : ''}<br />
-            {props.event.location ?  props.event.location : ''}
-          </div>}
-      / >
-      <CardText>
-        {props.event.message ? props.event.message : ''}
-        <br />
-        {props.event.guests ? 'Guestlist: ' + props.event.guests : ''}
-      </CardText>
-      <CardActions>
-        <FlatButton label="Delete" onClick={props.delete} />
-      </CardActions>
-    </Card>
+  <Card className="event-card">
+    <CardTitle
+      title={props.event.name}
+      subtitle={
+        <div>
+          {props.event.host}<br />
+          {formattedDateTime(props.event)}
+          {props.event.type ? props.event.type : ''}<br />
+          {props.event.location ? props.event.location : ''}
+        </div>}
+    / >
+    <CardText>
+      {props.event.message ? props.event.message : ''}
+      <br />
+      {props.event.guests ? 'Guestlist: ' + props.event.guests : ''}
+    </CardText>
+    <CardActions>
+      <FlatButton label="Delete" onClick={props.delete} />
+    </CardActions>
+  </Card>
 );
 
 Event.propTypes = {

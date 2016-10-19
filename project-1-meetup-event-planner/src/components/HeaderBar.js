@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router';
 import Base from '../core/firebase';
 import {browserHistory} from 'react-router';
 

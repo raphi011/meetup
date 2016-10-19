@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import { browserHistory } from 'react-router';
+import {Row, Col} from 'react-flexbox-grid/lib/index';
 
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentAdd from 'material-ui/svg-icons/content/add';
+import RaisedButton from 'material-ui/RaisedButton';
 import Snackbar from 'material-ui/Snackbar';
 
 import EventList from '../components/EventList';
@@ -13,7 +13,7 @@ class Home extends Component {
 
     this.state = {
       open: false
-    }
+    };
 
     this.onDeleted = this.onDeleted.bind(this);
   }
@@ -28,14 +28,23 @@ class Home extends Component {
 
   render() {
     return (
-      <div className="home-container">
-        <h2>Your Events</h2>
-        <EventList user={this.props.user} onDeleted={this.onDeleted} />
-        <FloatingActionButton
-          className="add-event-button"
-          onClick={this.addEvent}>
-          <ContentAdd />
-        </FloatingActionButton>
+      <div>
+        <Row>
+          <Col xs={12} sm={12} md={12} lg={12} style={{ position: 'relative'}}>
+            <h1>Your Events</h1>
+            <RaisedButton
+              onClick={this.addEvent}
+              className="add-event-button"
+              label="New Event"
+              primary={true}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12} sm={12} md={12} lg={12}>
+            <EventList user={this.props.user} onDeleted={this.onDeleted} />
+          </Col>
+        </Row>
         <Snackbar
           open={this.state.open}
           message="Event deleted"
@@ -45,5 +54,9 @@ class Home extends Component {
     );
   }
 }
+
+Home.propTypes = {
+  user: React.PropTypes.object
+};
 
 export default Home;

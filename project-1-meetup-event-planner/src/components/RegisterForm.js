@@ -16,7 +16,7 @@ class RegisterForm extends Component {
       email: '',
       password: '',
       birthday: null
-    }
+    };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSetName = this.handleSetName.bind(this);
@@ -110,7 +110,7 @@ class RegisterForm extends Component {
           <RaisedButton type="submit" primary={true} label="Go" fullWidth={true} />
         </form>
       </div>
-    )
+    );
   }
 }
 

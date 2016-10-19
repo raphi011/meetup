@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {browserHistory} from 'react-router';
 import {Tabs, Tab} from 'material-ui/Tabs';
 
 import LoginForm from '../components/LoginForm';

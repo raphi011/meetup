@@ -1,27 +1,28 @@
 import React from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import {Grid} from 'react-flexbox-grid/lib/index';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
-import 'sprint-js/sprint';
-
+import HeaderBar from './components/HeaderBar';
 import './styles/global.scss';
 
 injectTapEventPlugin();
 
-import HeaderBar from './components/HeaderBar';
 
 const App = props =>
   <MuiThemeProvider >
     <div>
       <HeaderBar />
-      <div className="page-content">
-        {props.children}
-      </div>
+      <Grid>
+        <main>
+          {props.children}
+        </main>
+      </Grid>
     </div>
   </MuiThemeProvider>;
 
 App.propTypes = {
-  children: React.PropTypes.any
+  children: React.PropTypes.object
 };
 
 export default App;

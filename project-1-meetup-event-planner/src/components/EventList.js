@@ -24,7 +24,7 @@ class EventList extends Component {
     });
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     Base.removeBinding(this.ref);
   }
 
@@ -55,6 +55,11 @@ class EventList extends Component {
   }
 }
 
-
+EventList.propTypes = {
+  onDeleted: React.PropTypes.func,
+  user: React.PropTypes.shape({
+    uid: React.PropTypes.string
+  })
+};
 
 export default EventList;

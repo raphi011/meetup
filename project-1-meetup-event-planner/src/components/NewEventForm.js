@@ -1,5 +1,5 @@
-import React, { Component } from 'react'; import {browserHistory} from 'react-router';
-import {Grid, Row, Col} from 'react-flexbox-grid/lib/index';
+import React, {Component} from 'react'; import {browserHistory} from 'react-router';
+import {Row, Col} from 'react-flexbox-grid/lib/index';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
@@ -18,7 +18,7 @@ class NewEventForm extends Component {
     this.state = {
       allDay: true,
       name: '',
-      host: this.props.user.displayName ,
+      host: this.props.user.displayName,
       type: '',
       guests: '',
       location: '',
@@ -27,7 +27,7 @@ class NewEventForm extends Component {
       startTime: currentDateTime,
       endDate: currentDateTime,
       endTime: currentDateTime
-    }
+    };
 
     this.autocomplete = new google.maps.places.Autocomplete(
       document.getElementById('autocomplete'),
@@ -55,7 +55,7 @@ class NewEventForm extends Component {
       document.getElementById('autocomplete'),
       {types: ['geocode']});
 
-    this.autocomplete.addListener('place_changed', function () {
+    this.autocomplete.addListener('place_changed', function() {
       self.setState({location: self.autocomplete.getPlace().formatted_address});
     });
   }
@@ -94,7 +94,7 @@ class NewEventForm extends Component {
   }
 
   handleSetEndDate(e, date) {
-    const state = {endDate: date}
+    const state = {endDate: date};
 
     if (date.getTime() < this.state.startTime.getTime()) {
       state.startDate = date;
@@ -128,7 +128,7 @@ class NewEventForm extends Component {
 
     const state = {
       allDay
-    }
+    };
 
     if (allDay) {
       state.startTime = null;
@@ -169,8 +169,6 @@ class NewEventForm extends Component {
       then(err) {
         if (!err) {
           browserHistory.push('/');
-        } else {
-          console.log(err);
         }
       }
     });
@@ -206,106 +204,104 @@ class NewEventForm extends Component {
 
     return (
       <form onSubmit={this.submit}>
-        <Grid>
-          <Row>
-            <Col xs={12} sm={12} md={12}>
-              <TextField
-                value={this.state.name}
-                onChange={this.handleSetName}
-                floatingLabelText="Name"
-                id="event-name"
-                type="text"
-                fullWidth={true}
-                required
-                autoFocus
-              />
-            </Col>
-          </Row>
-          <Row style={{ margin: '10px 0 0 0'}}>
-            <Col xs={12} sm={12} md={12} >
-              <Toggle
-                label="All day"
-                toggled={this.state.allDay}
-                onToggle={this.handleSetAllDay}
-              />
-            </Col>
-          </Row>
-          <Row>
-            <Col {...datePickerColumns} >
-              <DatePicker
-                floatingLabelText="Start date"
-                value={this.state.startDate}
-                fullWidth={true}
-                onChange={this.handleSetStartDate}
-                required
-              />
-            </Col>
-            {startTimePicker}
-            <Col {...datePickerColumns} >
-              <DatePicker
-                floatingLabelText="End date"
-                fullWidth={true}
-                value={this.state.endDate}
-                onChange={this.handleSetEndDate}
-                required
-              />
-            </Col>
-            {endTimePicker}
-          </Row>
-          <TextField
-            value={this.state.location}
-            onInput={this.handleSetLocation}
-            id="autocomplete"
-            fullWidth={true}
-            floatingLabelText="Location"
-            placeholder=""
-            type="text"
-            required
-          />
-          <TextField
-            value={this.state.host}
-            onChange={this.handleSetHost}
-            fullWidth={true}
-            floatingLabelText="Host"
-            type="text"
-            required
-          />
-          <TextField
-            value={this.state.type}
-            onChange={this.handleSetType}
-            floatingLabelText="Type"
-            fullWidth={true}
-            list="events"
-            type="text"
-            required
-          />
-          <TextField
-            value={this.state.guests}
-            onChange={this.handleSetGuests}
-            floatingLabelText="Guestlist"
-            fullWidth={true}
-            type="text"
-            required
-          />
-          <TextField
-            value={this.state.message}
-            onChange={this.handleSetMessage}
-            floatingLabelText="Message"
-            fullWidth={true}
-            multiLine={true}
-            rows={3}
-          />
-          <datalist id="events">
-            <option value="Birthday" />
-            <option value="Conference" />
-          </datalist>
-          <RaisedButton
-            label="Submit"
-            type="submit"
-            className="create-event-button"
-            primary={true}
-          />
-        </Grid>
+        <Row>
+          <Col xs={12} sm={12} md={12}>
+            <TextField
+              value={this.state.name}
+              onChange={this.handleSetName}
+              floatingLabelText="Name"
+              id="event-name"
+              type="text"
+              fullWidth={true}
+              required
+              autoFocus
+            />
+          </Col>
+        </Row>
+        <Row style={{ margin: '10px 0 0 0'}}>
+          <Col xs={12} sm={12} md={12} >
+            <Toggle
+              label="All day"
+              toggled={this.state.allDay}
+              onToggle={this.handleSetAllDay}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col {...datePickerColumns} >
+            <DatePicker
+              floatingLabelText="Start date"
+              value={this.state.startDate}
+              fullWidth={true}
+              onChange={this.handleSetStartDate}
+              required
+            />
+          </Col>
+          {startTimePicker}
+          <Col {...datePickerColumns} >
+            <DatePicker
+              floatingLabelText="End date"
+              fullWidth={true}
+              value={this.state.endDate}
+              onChange={this.handleSetEndDate}
+              required
+            />
+          </Col>
+          {endTimePicker}
+        </Row>
+        <TextField
+          value={this.state.location}
+          onInput={this.handleSetLocation}
+          id="autocomplete"
+          fullWidth={true}
+          floatingLabelText="Location"
+          placeholder=""
+          type="text"
+          required
+        />
+        <TextField
+          value={this.state.host}
+          onChange={this.handleSetHost}
+          fullWidth={true}
+          floatingLabelText="Host"
+          type="text"
+          required
+        />
+        <TextField
+          value={this.state.type}
+          onChange={this.handleSetType}
+          floatingLabelText="Type"
+          fullWidth={true}
+          list="events"
+          type="text"
+          required
+        />
+        <TextField
+          value={this.state.guests}
+          onChange={this.handleSetGuests}
+          floatingLabelText="Guestlist"
+          fullWidth={true}
+          type="text"
+          required
+        />
+        <TextField
+          value={this.state.message}
+          onChange={this.handleSetMessage}
+          floatingLabelText="Message"
+          fullWidth={true}
+          multiLine={true}
+          rows={3}
+        />
+        <datalist id="events">
+          <option value="Birthday" />
+          <option value="Conference" />
+        </datalist>
+        <RaisedButton
+          label="Submit"
+          type="submit"
+          className="create-event-button"
+          primary={true}
+        />
       </form>
     );
   }

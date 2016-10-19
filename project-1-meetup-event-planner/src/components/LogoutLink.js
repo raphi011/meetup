@@ -1,5 +1,6 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
+import Base from '../core/firebase';
 
 function handleLogout() {
   Base.unauth();
