@@ -5,6 +5,8 @@ import App from './App';
 
 const rootEl = document.getElementById('root');
 
+require('./index.html');
+
 render(
   <AppContainer>
     <App />

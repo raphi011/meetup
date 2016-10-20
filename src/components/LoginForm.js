@@ -12,21 +12,35 @@ class LoginForm extends Component {
     this.state = {
       email: '',
       password: '',
-      error: ''
+      errors: {
+        email: '',
+        password: ''
+      }
     };
 
     this.handleSetPassword = this.handleSetPassword.bind(this);
     this.handleSetEmail = this.handleSetEmail.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.authHandler = this.authHandler.bind(this);
+    this.setValidationMessage = this.setValidationMessage.bind(this);
   }
 
   handleSetPassword(e) {
-    this.setState({password: e.target.value});
+    if (e.target.checkValidity()) {
+      this.setState({
+        password: e.target.value,
+        errors: Object.assign({}, this.state.errors, { password: ''})
+      });
+    }
   }
 
   handleSetEmail(e) {
-    this.setState({email: e.target.value});
+    if (e.target.checkValidity()) {
+      this.setState({
+        email: e.target.value,
+        errors: Object.assign({}, this.state.errors, { email: ''})
+      });
+    }
   }
 
   authHandler(error, user) {
@@ -37,8 +51,28 @@ class LoginForm extends Component {
     }
 
     if (error) {
-      this.setState({error: error.message});
+      if (error.code === 'auth/wrong-password') {
+        this.setState({errors: {password: error.message}});
+      } else {
+        this.setState({errors: {email: error.message}});
+      }
     }
+  }
+
+  setValidationMessage(e) {
+    e.preventDefault();
+
+    const target = e.target;
+    const errors = Object.assign({}, this.state.errors);
+    const message = target.validationMessage;
+
+    switch (e.target.id) {
+      case 'login-email': errors.email = message; break;
+      case 'login-password': errors.password = message; break;
+      default: console.warn('setValidationMessage: unknown input name');
+    }
+
+    this.setState({ errors: errors });
   }
 
   onSubmit(e) {
@@ -58,19 +92,21 @@ class LoginForm extends Component {
           <TextField
             floatingLabelText="Email"
             type="email"
+            id="login-email"
             onChange={this.handleSetEmail}
-            value={this.state.email}
+            onInvalid={this.setValidationMessage}
+            errorText={this.state.errors.email}
             fullWidth={true}
             autoComplete="email"
-            autoFocus
             required
           />
           <TextField
             floatingLabelText="Password"
             type="password"
+            id="login-password"
             onChange={this.handleSetPassword}
-            value={this.state.password}
-            errorText={this.state.error}
+            onInvalid={this.setValidationMessage}
+            errorText={this.state.errors.password}
             fullWidth={true}
             autoComplete="current-password"
             required

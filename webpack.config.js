@@ -1,26 +1,21 @@
 var webpack = require('webpack');
 var path = require('path');
+var DashboardPlugin = require('webpack-dashboard/plugin');
 
-module.exports = {
+
+var ENV_PRODUCTION = process.env.NODE_ENV || false;
+
+const HOST = '0.0.0.0';
+const PORT = 3000;
+
+const config = {
+  context: path.join(__dirname, './src'),
   entry: [
-    'react-hot-loader/patch',
-    'webpack-dev-server/client?http://0.0.0.0:3000',
-    'webpack/hot/only-dev-server',
-    './src/index'
-  ],
-  plugins: [
-    new webpack.HotModuleReplacementPlugin()
+    './index'
   ],
   output: {
-    path: __dirname,
+    path: './dist/',
     filename: 'bundle.js'
-  },
-  devServer: {
-    colors: true,
-    historyApiFallback: true,
-    inline: false,
-    port: 3000,
-    hot: true
   },
   module: {
     loaders: [
@@ -43,7 +38,43 @@ module.exports = {
         test: /\.js$/,
         loader: 'babel',
         include: path.join(__dirname, 'src')
+      },
+      {
+        test: /\.(html)$/,
+        loader: 'file-loader?name=[name].[ext]'
       }
     ]
   }
 };
+
+if (ENV_PRODUCTION) {
+  config.plugins = [
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      },
+      sourceMap: true,
+      mangle: false
+    })
+  ];
+} else {
+  config.entry.unshift(
+    'react-hot-loader/patch',
+    `webpack-dev-server/client?http://${HOST}:${PORT}`,
+    'webpack/hot/only-dev-server'
+  );
+  config.plugins = [
+    new webpack.HotModuleReplacementPlugin(),
+    new DashboardPlugin()
+  ];
+
+  config.devServer = {
+    colors: true,
+    historyApiFallback: true,
+    inline: false,
+    port: PORT,
+    hot: true
+  };
+}
+
+module.exports = config;

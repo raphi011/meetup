@@ -13,7 +13,9 @@ class NewEventForm extends Component {
   constructor(props) {
     super(props);
 
-    var currentDateTime = new Date();
+    this.currentDateTime = new Date();
+
+    const time = this.currentDateTime;
 
     this.state = {
       allDay: true,
@@ -23,18 +25,14 @@ class NewEventForm extends Component {
       guests: '',
       location: '',
       message: '',
-      startDate: currentDateTime,
-      startTime: currentDateTime,
-      endDate: currentDateTime,
-      endTime: currentDateTime
+      startDate: time,
+      startTime: time,
+      endDate: time,
+      endTime: time,
+      errors: {}
     };
 
-    this.autocomplete = new google.maps.places.Autocomplete(
-      document.getElementById('autocomplete'),
-      {types: ['geocode']});
-
     this.submit = this.submit.bind(this);
-
     this.handleSetName = this.handleSetName.bind(this);
     this.handleSetMessage = this.handleSetMessage.bind(this);
     this.handleSetLocation = this.handleSetLocation.bind(this);
@@ -46,13 +44,14 @@ class NewEventForm extends Component {
     this.handleSetEndDate = this.handleSetEndDate.bind(this);
     this.handleSetEndTime = this.handleSetEndTime.bind(this);
     this.handleSetAllDay = this.handleSetAllDay.bind(this);
+    this.setValidationMessage = this.setValidationMessage.bind(this);
   }
 
   componentDidMount() {
     const self = this;
 
     this.autocomplete = new google.maps.places.Autocomplete(
-      document.getElementById('autocomplete'),
+      document.getElementById('event-location'),
       {types: ['geocode']});
 
     this.autocomplete.addListener('place_changed', function() {
@@ -60,107 +59,159 @@ class NewEventForm extends Component {
     });
   }
 
-  /*
   componentWillUnmount() {
-    console.log('unsuscribing from autocomple te event');
     this.autocomplete.clearListeners('place_changed');
   }
-  */
 
   handleSetMessage(e) {
-    this.setState({
-      message: e.target.value
-    });
+    this.setState({message: e.target.value});
   }
 
   handleSetLocation(e) {
-    this.setState({
-      location: e.target.value
-    });
+    if (e.target.checkValidity()) {
+      this.setState({
+        location: e.target.value,
+        errors: Object.assign({}, this.state.errors, { location: ''})
+      });
+    }
   }
 
   handleSetStartDate(e, date) {
-    let state = {startDate: date};
+    const time = date.getTime();
 
-    if (date.getTime() > this.state.endTime.getTime()) {
-      state.endDate = date;
+    if (time < new Date().getTime()) {
+      e.target.setCustomValidity('Can\'t set date in the past');
     }
 
-    this.setState(state);
+    if (time > this.state.endTime.getTime()) {
+      e.target.setCustomValidity('Start date has to be before end date');
+    }
+
+    if (e.target.checkValidity()) {
+      this.setState({
+        startDate: time,
+        errors: Object.assign({}, this.state.errors, { startDate: ''})
+      });
+    }
   }
 
   handleSetStartTime(e, date) {
-    this.setState({startTime: date});
+    if (e.target.checkValidity()) {
+      this.setState({
+        startTime: date.getTime(),
+        errors: Object.assign({}, this.state.errors, { startTime: ''})
+      });
+    }
   }
 
   handleSetEndDate(e, date) {
-    const state = {endDate: date};
+    const time = date.getTime();
 
-    if (date.getTime() < this.state.startTime.getTime()) {
-      state.startDate = date;
+    if (time < this.state.startTime) {
+      e.target.setCustomValidity('End date can\'t be before start date');
     }
 
-    this.setState(state);
+    if (e.target.checkValidity()) {
+      this.setState({
+        endDate: time,
+        errors: Object.assign({}, this.state.errors, { endDate: ''})
+      });
+    }
   }
 
   handleSetEndTime(e, date) {
-    this.setState({endTime: date});
+    if (e.target.checkValidity()) {
+      this.setState({
+        endTime: date.getTime(),
+        errors: Object.assign({}, this.state.errors, { endTime: ''})
+      });
+    }
   }
 
   handleSetGuests(e) {
-    this.setState({guests: e.target.value});
+    if (e.target.checkValidity()) {
+      this.setState({
+        guests: e.target.value,
+        errors: Object.assign({}, this.state.errors, { guests: ''})
+      });
+    }
   }
 
   handleSetType(e) {
-    this.setState({type: e.target.value});
+    if (e.target.checkValidity()) {
+      this.setState({
+        type: e.target.value,
+        errors: Object.assign({}, this.state.errors, { type: ''})
+      });
+    }
   }
 
   handleSetHost(e) {
-    this.setState({host: e.target.value});
+    if (e.target.checkValidity()) {
+      this.setState({
+        host: e.target.value,
+        errors: Object.assign({}, this.state.errors, { host: ''})
+      });
+    }
   }
 
   handleSetName(e) {
-    this.setState({name: e.target.value});
+    if (e.target.checkValidity()) {
+      this.setState({
+        name: e.target.value,
+        errors: Object.assign({}, this.state.errors, { name: ''})
+      });
+    }
   }
 
   handleSetAllDay() {
-    const allDay = !this.state.allDay;
+    this.setState({ allDay: !this.state.allDay });
+  }
 
-    const state = {
-      allDay
-    };
+  setValidationMessage(e) {
+    e.preventDefault();
 
-    if (allDay) {
-      state.startTime = null;
-      state.endTime = null;
+    const target = e.target;
+    const errors = Object.assign({}, this.state.errors);
+    const message = target.validationMessage;
+
+    switch (e.target.id) {
+      case 'event-name': errors.email = message; break;
+      case 'event-host': errors.host = message; break;
+      case 'event-type': errors.type = message; break;
+      // case 'event-allday': errors.allday = message; break;
+      case 'event-endtime': errors.endtime = message; break;
+      case 'event-enddate': errors.enddate = message; break;
+      case 'event-starttime': errors.starttime = message; break;
+      case 'event-startdate': errors.startdate = message; break;
+      case 'event-guests': errors.guests = message; break;
+      case 'event-location': errors.location = message; break;
+      case 'event-message': errors.message = message; break;
+      default: console.warn('setValidationMessage: unknown input name');
     }
 
-    this.setState(state);
+    this.setState({ errors });
   }
 
   getData() {
-    var startTime = this.state.startTime ?
-                    this.state.startTime.getTime() :
-                    null;
-    var endTime = this.state.endTime ?
-                    this.state.endTime.getTime() :
-                    null;
+    const event = Object.assign(
+      {},
+      this.state,
+      { timestamp: new Date().getTime() }
+    );
 
-    const event = Object.assign({}, this.state, {
-      timestamp: new Date().getTime(),
-      startDate: this.state.startDate.getTime(),
-      startTime,
-      endDate: this.state.endDate.getTime(),
-      endTime
-    });
+    delete event.errors;
+
+    if (this.state.allDay) {
+      event.startTime = null;
+      event.endTime = null;
+    }
 
     return event;
   }
 
   submit(e) {
-    if (e) {
-      e.preventDefault();
-    }
+    e.preventDefault();
 
     const event = this.getData();
 
@@ -186,7 +237,9 @@ class NewEventForm extends Component {
         <Col xs={6} sm={6} md={3} >
           <TimePicker
             floatingLabelText="Start time"
-            value={this.state.startTime}
+            onInvalid={this.setValidationMessage}
+            defaultValue={this.currentDateTime}
+            id="event-starttime"
             onChange={this.handleSetStartTime}
             required
           />
@@ -195,7 +248,9 @@ class NewEventForm extends Component {
         <Col xs={6} sm={6} md={3} >
           <TimePicker
             floatingLabelText="End time"
-            value={this.state.endTime}
+            onInvalid={this.setValidationMessage}
+            defaultValue={this.currentDateTime}
+            id="event-endtime"
             onChange={this.handleSetEndTime}
             required
           />
@@ -207,14 +262,16 @@ class NewEventForm extends Component {
         <Row>
           <Col xs={12} sm={12} md={12}>
             <TextField
-              value={this.state.name}
               onChange={this.handleSetName}
               floatingLabelText="Name"
               id="event-name"
+              className="autofocus"
+              onInvalid={this.setValidationMessage}
+              errorText={this.state.errors.name}
               type="text"
               fullWidth={true}
+              autoFocus={true}
               required
-              autoFocus
             />
           </Col>
         </Row>
@@ -222,6 +279,8 @@ class NewEventForm extends Component {
           <Col xs={12} sm={12} md={12} >
             <Toggle
               label="All day"
+              id="event-allday"
+              onInvalid={this.setValidationMessage}
               toggled={this.state.allDay}
               onToggle={this.handleSetAllDay}
             />
@@ -231,8 +290,11 @@ class NewEventForm extends Component {
           <Col {...datePickerColumns} >
             <DatePicker
               floatingLabelText="Start date"
-              value={this.state.startDate}
               fullWidth={true}
+              defaultValue={this.currentDateTime}
+              id="event-startdate"
+              onInvalid={this.setValidationMessage}
+              errorText={this.state.errors.startDate}
               onChange={this.handleSetStartDate}
               required
             />
@@ -241,8 +303,11 @@ class NewEventForm extends Component {
           <Col {...datePickerColumns} >
             <DatePicker
               floatingLabelText="End date"
+              id="event-enddate"
+              defaultValue={this.currentDateTime}
               fullWidth={true}
-              value={this.state.endDate}
+              onInvalid={this.setValidationMessage}
+              errorText={this.state.errors.endDate}
               onChange={this.handleSetEndDate}
               required
             />
@@ -250,44 +315,52 @@ class NewEventForm extends Component {
           {endTimePicker}
         </Row>
         <TextField
-          value={this.state.location}
           onInput={this.handleSetLocation}
-          id="autocomplete"
+          id="event-location"
           fullWidth={true}
+          onInvalid={this.setValidationMessage}
+          errorText={this.state.errors.location}
           floatingLabelText="Location"
           placeholder=""
           type="text"
           required
         />
         <TextField
-          value={this.state.host}
           onChange={this.handleSetHost}
+          errorText={this.state.errors.host}
+          defaultValue={this.props.user.displayName}
+          onInvalid={this.setValidationMessage}
           fullWidth={true}
+          id="event-host"
           floatingLabelText="Host"
           type="text"
           required
         />
         <TextField
-          value={this.state.type}
           onChange={this.handleSetType}
+          errorText={this.state.errors.type}
           floatingLabelText="Type"
           fullWidth={true}
           list="events"
+          id="event-type"
+          onInvalid={this.setValidationMessage}
           type="text"
           required
         />
         <TextField
-          value={this.state.guests}
           onChange={this.handleSetGuests}
+          errorText={this.state.errors.guests}
           floatingLabelText="Guestlist"
           fullWidth={true}
+          id="event-guests"
+          onInvalid={this.setValidationMessage}
           type="text"
           required
         />
         <TextField
-          value={this.state.message}
           onChange={this.handleSetMessage}
           floatingLabelText="Message"
+          id="event-message"
           fullWidth={true}
           multiLine={true}
           rows={3}

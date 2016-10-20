@@ -7,14 +7,33 @@ import RegisterForm from '../components/RegisterForm';
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.state = { activeTab: 0 };
+
+    this.tabIndex = 0;
+    this.onChange = this.onChange.bind(this);
+  }
+
+  componentDidMount() {
+    this.select();
+  }
+
+  select() {
+    if (this.tabIndex === 0) {
+      document.getElementById('login-email').focus();
+    } else {
+      document.getElementById('register-name').focus();
+    }
+  }
+
+  onChange() {
+    this.tabIndex = this.tabIndex === 0 ? 1 : 0;
+    this.select(this.tabIndex);
   }
 
   render() {
     return (
       <section id="login-form-container">
         <div id="login-form">
-          <Tabs>
+          <Tabs onChange={this.onChange}>
             <Tab label="Login">
               <div>
                 <LoginForm />

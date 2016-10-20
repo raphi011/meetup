@@ -15,7 +15,12 @@ class RegisterForm extends Component {
       name: '',
       email: '',
       password: '',
-      birthday: null
+      birthday: null,
+      errors: {
+        name: '',
+        email: '',
+        password: ''
+      }
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,31 +28,63 @@ class RegisterForm extends Component {
     this.handleSetEmail = this.handleSetEmail.bind(this);
     this.handleSetPassword = this.handleSetPassword.bind(this);
     this.authHandler = this.authHandler.bind(this);
+    this.setValidationMessage = this.setValidationMessage.bind(this);
   }
 
   handleSetEmail(e) {
-    this.setState({email: e.target.value});
+    if (e.target.checkValidity()) {
+      this.setState({
+        email: e.target.value,
+        errors: Object.assign({}, { email: ''})
+      });
+    }
   }
 
   handleSetName(e) {
-    this.setState({name: e.target.value});
+    if (e.target.checkValidity()) {
+      this.setState({
+        name: e.target.value,
+        errors: Object.assign({}, { name: ''})
+      });
+    }
   }
 
   handleSetPassword(e) {
-    const passwordInput = e.target;
-    const password = passwordInput.value;
+    const target = e.target;
+    const password = target.value;
+    let errorMessage = '';
 
     if (!password.match(/[!@#$%^&\*\(\)_+]/g)) {
-      passwordInput.setCustomValidity(
-        'Add atleast one of the following symbols: !@#$%^&*()_+');
+      errorMessage = 'Add atleast one of the following symbols: !@#$%^&*()_+';
     } else if (password.length < 8) {
-      passwordInput.setCustomValidity(
-        'Password has to be longer than 8 characters');
-    } else {
-      passwordInput.setCustomValidity('');
+      errorMessage = 'Password has to be longer than 8 characters';
     }
 
-    this.setState({ password: password });
+    target.setCustomValidity(errorMessage);
+
+    if (e.target.checkValidity()) {
+      this.setState({
+        password,
+        errors: Object.assign({}, { password: ''})
+      });
+    }
+  }
+
+  setValidationMessage(e) {
+    e.preventDefault();
+
+    const target = e.target;
+    const errors = Object.assign({}, this.state.errors);
+    const message = target.validationMessage;
+
+    switch (e.target.id) {
+      case 'register-email': errors.email = message; break;
+      case 'register-password': errors.password = message; break;
+      case 'register-name': errors.name = message; break;
+      default: console.warn('setValidationMessage: unknown input name');
+    }
+
+    this.setState({ errors: errors });
   }
 
   handleSubmit(e) {
@@ -79,17 +116,22 @@ class RegisterForm extends Component {
             floatingLabelText="Name"
             fullWidth={true}
             type="text"
+            id="register-name"
             autoComplete="name"
             onChange={this.handleSetName}
-            value={this.state.name}
+            onInvalid={this.setValidationMessage}
+            errorText={this.state.errors.name}
+            className="autofocus"
             required
           />
           <TextField
             floatingLabelText="Email"
             fullWidth={true}
             onChange={this.handleSetEmail}
-            value={this.state.email}
+            onInvalid={this.setValidationMessage}
+            errorText={this.state.errors.email}
             type="email"
+            id="register-email"
             autoComplete="email"
             required
           />
@@ -97,8 +139,10 @@ class RegisterForm extends Component {
             floatingLabelText="Password"
             fullWidth={true}
             onChange={this.handleSetPassword}
-            value={this.state.password}
+            onInvalid={this.setValidationMessage}
+            errorText={this.state.errors.password}
             type="password"
+            id="register-password"
             autoComplete="new-password"
             required
           />
@@ -107,7 +151,12 @@ class RegisterForm extends Component {
             fullWidth={true}
             autoComplete="bday"
           />
-          <RaisedButton type="submit" primary={true} label="Go" fullWidth={true} />
+          <RaisedButton
+            type="submit"
+            primary={true}
+            label="Go"
+            fullWidth={true}
+          />
         </form>
       </div>
     );
