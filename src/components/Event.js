@@ -4,6 +4,7 @@ import FlatButton from 'material-ui/FlatButton';
 import moment from 'momentjs';
 
 function formattedDateTime(event) {
+  console.log(event);
   var startDate = moment(new Date(event.startDate));
   var endDate = moment(new Date(event.endDate));
   var startTime, endTime;

@@ -15,7 +15,7 @@ class NewEventForm extends Component {
 
     this.currentDateTime = new Date();
 
-    const time = this.currentDateTime;
+    const time = this.currentDateTime.getTime();
 
     this.state = {
       allDay: true,
@@ -59,9 +59,10 @@ class NewEventForm extends Component {
     });
   }
 
+/*
   componentWillUnmount() {
     this.autocomplete.clearListeners('place_changed');
-  }
+  }*/
 
   handleSetMessage(e) {
     this.setState({message: e.target.value});
@@ -78,16 +79,19 @@ class NewEventForm extends Component {
 
   handleSetStartDate(e, date) {
     const time = date.getTime();
+    const target = document.getElementById('event-startdate');
 
     if (time < new Date().getTime()) {
-      e.target.setCustomValidity('Can\'t set date in the past');
+      target.setCustomValidity('Can\'t set date in the past');
     }
 
     if (time > this.state.endTime.getTime()) {
-      e.target.setCustomValidity('Start date has to be before end date');
+      target.setCustomValidity('Start date has to be before end date');
+    } else {
+      target.setCustomValidity('');
     }
 
-    if (e.target.checkValidity()) {
+    if (target.checkValidity()) {
       this.setState({
         startDate: time,
         errors: Object.assign({}, this.state.errors, { startDate: ''})
@@ -96,7 +100,8 @@ class NewEventForm extends Component {
   }
 
   handleSetStartTime(e, date) {
-    if (e.target.checkValidity()) {
+    const target = document.getElementById('event-starttime');
+    if (target.checkValidity()) {
       this.setState({
         startTime: date.getTime(),
         errors: Object.assign({}, this.state.errors, { startTime: ''})
@@ -105,13 +110,16 @@ class NewEventForm extends Component {
   }
 
   handleSetEndDate(e, date) {
+    const target = document.getElementById('event-enddate');
     const time = date.getTime();
 
     if (time < this.state.startTime) {
-      e.target.setCustomValidity('End date can\'t be before start date');
+      target.setCustomValidity('End date can\'t be before start date');
+    } else {
+      target.setCustomValidity('');
     }
 
-    if (e.target.checkValidity()) {
+    if (target.checkValidity()) {
       this.setState({
         endDate: time,
         errors: Object.assign({}, this.state.errors, { endDate: ''})
@@ -120,7 +128,9 @@ class NewEventForm extends Component {
   }
 
   handleSetEndTime(e, date) {
-    if (e.target.checkValidity()) {
+    const target = document.getElementById('event-endtime');
+
+    if (target.checkValidity()) {
       this.setState({
         endTime: date.getTime(),
         errors: Object.assign({}, this.state.errors, { endTime: ''})
@@ -176,14 +186,14 @@ class NewEventForm extends Component {
     const message = target.validationMessage;
 
     switch (e.target.id) {
-      case 'event-name': errors.email = message; break;
+      case 'event-name': errors.name = message; break;
       case 'event-host': errors.host = message; break;
       case 'event-type': errors.type = message; break;
       // case 'event-allday': errors.allday = message; break;
-      case 'event-endtime': errors.endtime = message; break;
-      case 'event-enddate': errors.enddate = message; break;
-      case 'event-starttime': errors.starttime = message; break;
-      case 'event-startdate': errors.startdate = message; break;
+      case 'event-endtime': errors.endTime = message; break;
+      case 'event-enddate': errors.endDate = message; break;
+      case 'event-starttime': errors.startTime = message; break;
+      case 'event-startdate': errors.startDate = message; break;
       case 'event-guests': errors.guests = message; break;
       case 'event-location': errors.location = message; break;
       case 'event-message': errors.message = message; break;
@@ -238,7 +248,8 @@ class NewEventForm extends Component {
           <TimePicker
             floatingLabelText="Start time"
             onInvalid={this.setValidationMessage}
-            defaultValue={this.currentDateTime}
+            defaultTime={this.currentDateTime}
+            errorText={this.state.errors.startTime}
             id="event-starttime"
             onChange={this.handleSetStartTime}
             required
@@ -249,7 +260,8 @@ class NewEventForm extends Component {
           <TimePicker
             floatingLabelText="End time"
             onInvalid={this.setValidationMessage}
-            defaultValue={this.currentDateTime}
+            defaultTime={this.currentDateTime}
+            errorText={this.state.errors.endTime}
             id="event-endtime"
             onChange={this.handleSetEndTime}
             required
@@ -291,8 +303,8 @@ class NewEventForm extends Component {
             <DatePicker
               floatingLabelText="Start date"
               fullWidth={true}
-              defaultValue={this.currentDateTime}
               id="event-startdate"
+              defaultDate={this.currentDateTime}
               onInvalid={this.setValidationMessage}
               errorText={this.state.errors.startDate}
               onChange={this.handleSetStartDate}
@@ -304,7 +316,7 @@ class NewEventForm extends Component {
             <DatePicker
               floatingLabelText="End date"
               id="event-enddate"
-              defaultValue={this.currentDateTime}
+              defaultDate={this.currentDateTime}
               fullWidth={true}
               onInvalid={this.setValidationMessage}
               errorText={this.state.errors.endDate}
