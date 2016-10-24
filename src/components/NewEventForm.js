@@ -85,7 +85,7 @@ class NewEventForm extends Component {
       target.setCustomValidity('Can\'t set date in the past');
     }
 
-    if (time > this.state.endTime.getTime()) {
+    if (time > this.state.endTime) {
       target.setCustomValidity('Start date has to be before end date');
     } else {
       target.setCustomValidity('');
