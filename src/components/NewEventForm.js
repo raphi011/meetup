@@ -80,7 +80,7 @@ class NewEventForm extends Component {
     let msg = '';
 
     if (state.startDate < new Date().getTime()) {
-      msg = 'Can\'t set date in the past';
+      msg = 'Can\'t set start to today or in the past';
     } else if (state.startDate > state.endDate) {
       msg = 'Start date has to be before end date';
     }
