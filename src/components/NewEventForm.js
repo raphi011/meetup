@@ -1,5 +1,6 @@
 import React, {Component} from 'react'; import {browserHistory} from 'react-router';
 import {Row, Col} from 'react-flexbox-grid/lib/index';
+import moment from 'momentjs';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
@@ -14,8 +15,10 @@ class NewEventForm extends Component {
     super(props);
 
     this.currentDateTime = new Date();
+    this.currentDateTime.setDate(this.currentDateTime.getDate() + 1);
 
     const time = this.currentDateTime.getTime();
+
 
     this.state = {
       allDay: true,
@@ -25,10 +28,10 @@ class NewEventForm extends Component {
       guests: '',
       location: '',
       message: '',
-      startDate: time,
       startTime: time,
-      endDate: time,
+      startDate: time,
       endTime: time,
+      endDate: time,
       errors: {}
     };
 
@@ -59,11 +62,6 @@ class NewEventForm extends Component {
     });
   }
 
-/*
-  componentWillUnmount() {
-    this.autocomplete.clearListeners('place_changed');
-  }*/
-
   handleSetMessage(e) {
     this.setState({message: e.target.value});
   }
@@ -77,67 +75,112 @@ class NewEventForm extends Component {
     }
   }
 
-  handleSetStartDate(e, date) {
-    const time = date.getTime();
+  checkStartDate(state) {
     const target = document.getElementById('event-startdate');
+    let msg = '';
 
-    if (time < new Date().getTime()) {
-      target.setCustomValidity('Can\'t set date in the past');
+    if (state.startDate < new Date().getTime()) {
+      msg = 'Can\'t set date in the past';
+    } else if (state.startDate > state.endDate) {
+      msg = 'Start date has to be before end date';
     }
 
-    if (time > this.state.endTime) {
-      target.setCustomValidity('Start date has to be before end date');
-    } else {
-      target.setCustomValidity('');
+    state.errors.startDate = msg;
+    target.setCustomValidity(msg);
+    return msg === '';
+  }
+
+  checkEndDate(state) {
+    const target = document.getElementById('event-enddate');
+    let msg = '';
+
+    if (state.endDate < state.startDate) {
+      msg = 'End date has to be after start date';
     }
 
-    if (target.checkValidity()) {
-      this.setState({
-        startDate: time,
-        errors: Object.assign({}, this.state.errors, { startDate: ''})
-      });
+    target.setCustomValidity(msg);
+    state.errors.endDate = msg;
+    return msg === '';
+  }
+
+  checkStartTime(state) {
+    if (state.allDay) {
+      return true;
     }
+    const target = document.getElementById('event-starttime');
+    let msg = '';
+
+    if (state.startDate === state.endDate &&
+        state.startTime > state.endTime) {
+      msg = 'Start time has to be before end time';
+    }
+
+    target.setCustomValidity(msg);
+    state.errors.startTime = msg;
+
+    return msg === '';
+  }
+
+  checkEndTime(state) {
+    if (state.allDay) {
+      return true;
+    }
+
+    const target = document.getElementById('event-endtime');
+    let msg = '';
+
+    if (state.startDate === state.endDate &&
+        state.endTime < state.startTime) {
+      msg = 'end time has to be after start time';
+    }
+
+    target.setCustomValidity(msg);
+    state.errors.endTime = msg;
+
+    return msg === '';
+  }
+
+  handleSetStartDate(e, date) {
+    date.setHours(0, 0, 0, 0);
+    const state = Object.assign({}, this.state, { startDate: date.getTime() });
+
+    if (this.checkStartDate(state)) {
+      this.checkEndDate(state);
+      this.checkStartTime(state);
+      this.checkEndTime(state);
+    }
+    this.setState(state);
   }
 
   handleSetStartTime(e, date) {
-    const target = document.getElementById('event-starttime');
-    if (target.checkValidity()) {
-      this.setState({
-        startTime: date.getTime(),
-        errors: Object.assign({}, this.state.errors, { startTime: ''})
-      });
+    const state = Object.assign({}, this.state, { startTime: date.getTime() });
+
+    if (this.checkStartTime(state)) {
+      this.checkEndTime(state);
     }
+    this.setState(state);
   }
 
   handleSetEndDate(e, date) {
-    const target = document.getElementById('event-enddate');
-    const time = date.getTime();
+    date.setHours(0, 0, 0, 0);
+    const state = Object.assign({}, this.state, { endDate: date.getTime() });
 
-    if (time < this.state.startTime) {
-      target.setCustomValidity('End date can\'t be before start date');
-    } else {
-      target.setCustomValidity('');
+    if (this.checkEndDate(state)) {
+      this.checkStartDate(state);
+      this.checkStartTime(state);
+      this.checkEndTime(state);
     }
-
-    if (target.checkValidity()) {
-      this.setState({
-        endDate: time,
-        errors: Object.assign({}, this.state.errors, { endDate: ''})
-      });
-    }
+    this.setState(state);
   }
 
   handleSetEndTime(e, date) {
-    const target = document.getElementById('event-endtime');
+    const state = Object.assign({}, this.state, { endTime: date.getTime() });
 
-    if (target.checkValidity()) {
-      this.setState({
-        endTime: date.getTime(),
-        errors: Object.assign({}, this.state.errors, { endTime: ''})
-      });
+    if (this.checkEndTime(state)) {
+      this.checkStartTime(state);
     }
+    this.setState(state);
   }
-
   handleSetGuests(e) {
     if (e.target.checkValidity()) {
       this.setState({
@@ -189,11 +232,6 @@ class NewEventForm extends Component {
       case 'event-name': errors.name = message; break;
       case 'event-host': errors.host = message; break;
       case 'event-type': errors.type = message; break;
-      // case 'event-allday': errors.allday = message; break;
-      case 'event-endtime': errors.endTime = message; break;
-      case 'event-enddate': errors.endDate = message; break;
-      case 'event-starttime': errors.startTime = message; break;
-      case 'event-startdate': errors.startDate = message; break;
       case 'event-guests': errors.guests = message; break;
       case 'event-location': errors.location = message; break;
       case 'event-message': errors.message = message; break;
@@ -247,7 +285,6 @@ class NewEventForm extends Component {
         <Col xs={6} sm={6} md={3} >
           <TimePicker
             floatingLabelText="Start time"
-            onInvalid={this.setValidationMessage}
             defaultTime={this.currentDateTime}
             errorText={this.state.errors.startTime}
             id="event-starttime"
@@ -259,7 +296,6 @@ class NewEventForm extends Component {
         <Col xs={6} sm={6} md={3} >
           <TimePicker
             floatingLabelText="End time"
-            onInvalid={this.setValidationMessage}
             defaultTime={this.currentDateTime}
             errorText={this.state.errors.endTime}
             id="event-endtime"
@@ -278,8 +314,8 @@ class NewEventForm extends Component {
               floatingLabelText="Name"
               id="event-name"
               className="autofocus"
-              onInvalid={this.setValidationMessage}
               errorText={this.state.errors.name}
+              onInvalid={this.setValidationMessage}
               type="text"
               fullWidth={true}
               autoFocus={true}
@@ -292,7 +328,6 @@ class NewEventForm extends Component {
             <Toggle
               label="All day"
               id="event-allday"
-              onInvalid={this.setValidationMessage}
               toggled={this.state.allDay}
               onToggle={this.handleSetAllDay}
             />
@@ -305,7 +340,6 @@ class NewEventForm extends Component {
               fullWidth={true}
               id="event-startdate"
               defaultDate={this.currentDateTime}
-              onInvalid={this.setValidationMessage}
               errorText={this.state.errors.startDate}
               onChange={this.handleSetStartDate}
               required
@@ -318,7 +352,6 @@ class NewEventForm extends Component {
               id="event-enddate"
               defaultDate={this.currentDateTime}
               fullWidth={true}
-              onInvalid={this.setValidationMessage}
               errorText={this.state.errors.endDate}
               onChange={this.handleSetEndDate}
               required
